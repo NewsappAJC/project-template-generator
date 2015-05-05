@@ -252,8 +252,8 @@ module.exports = function(grunt) {
           destPrefix: 'src/style/lib'
         },
         files: {
-          "normalize.css": "foundation/css/normalize.min.css",
-          "foundation.js": "foundation/css/foundation.min.css"
+          "normalize.css": "normalize-css/normalize.css",
+          "foundation.css": "foundation/css/foundation.min.css"
         }
       },
 
