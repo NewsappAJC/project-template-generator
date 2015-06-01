@@ -30,6 +30,10 @@ Uses grunt-init to scaffold out basic AJC project template skeleton with grunt a
 	
 		$ npm install -g bower
 
+4. [git-flow](http://danielkummer.github.io/git-flow-cheatsheet/)
+	
+		$ brew install git-flow
+
 
 ## Let's get to scaffoldin'
 
@@ -53,10 +57,23 @@ Once that finishes, install/update all your dependencies with the `` bowercopy `
 
 	$ grunt bowercopy
 
+Initalize git and git-flow for your project.
+
+	$ git init
+	$ git-flow init
+
 Fire up the dev server...
 
 	$ grunt server
 
 ...and your browser will open to [http://localhost:8000/](http://localhost:8000/).
+
+Whenever you're ready to start building a new feature, start a new feature branch with git-flow.
+
+	$ git-flow feature start feature-name
+
+And whenever you're finished with that feature, close out the branch with git-flow, which will merge it back into develop.
+
+	$ git-flow feature finish feature-name
 
 You're ready to go! Get yourself some coffee  ☕️  and build something great!
