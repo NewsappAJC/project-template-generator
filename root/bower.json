@@ -7,10 +7,10 @@
     "d3": "latest",
     "backbone": "latest",
     "d3bb": "https://jgperryajc@bitbucket.org/jgperryajc/d3bb.git",
+    "ajc-design": "https://github.com/NewsappAJC/digital-design-guide.git",
     "normalize-css": "~3.0.2",
-    "modernizr": "latest",
-    "foundation": "latest",
-    "chroma-js":"latest"
+    "fontawesome": "latest",
+    "foundation": "latest"
   },
   "devDependencies": {
     "jasmine": "latest",
