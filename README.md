@@ -53,6 +53,11 @@ When it's done, run npm install to install all of the dependencies.
 
 	$ npm install
 
+Then you'll need to create your own version of the `` aws.json `` credentials file. Keep the example file so when you commit to github and the .gitignore ignores your config file, you and whoever else pulls your code will still have a reference to create a config file from. The next command will not run without a parseable `` aws.json `` file in the config directory.
+
+	$ cd config
+	$ cp aws.json.example aws.json
+
 Once that finishes, install/update all your dependencies with the `` bowercopy `` grunt task:
 
 	$ grunt bowercopy
