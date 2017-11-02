@@ -24,15 +24,13 @@ module.exports = function(grunt) {
           },
           {
             expand: true,
-            src: ['bower/backbone/backbone-min.js'],
-            dest: 'build/scripts/lib/',
-            rename: function (dest, src) {
-              return dest + src.substring(src.lastIndexOf('/')).replace('-min','');
-            }
+            flatten: true,
+            src: ['bower/backbone/backbone.js'],
+            dest: 'build/scripts/lib/'
           },
           {
             expand: true,
-            src: ['bower/d3/d3.min.js'],
+            src: ['bower/marionette/lib/backbone.marionette.min.js'],
             dest: 'build/scripts/lib/',
             rename: function (dest, src) {
               return dest + src.substring(src.lastIndexOf('/')).replace('.min','');
@@ -40,7 +38,7 @@ module.exports = function(grunt) {
           },
           {
             expand: true,
-            src: ['bower/d3bb/build/d3bb.min.js'],
+            src: ['bower/d3/d3.min.js'],
             dest: 'build/scripts/lib/',
             rename: function (dest, src) {
               return dest + src.substring(src.lastIndexOf('/')).replace('.min','');
@@ -60,11 +58,13 @@ module.exports = function(grunt) {
             src: [
               'src/scripts/lib/underscore.js',
               'src/scripts/lib/json2.js',
-              'src/scripts/lib/flatpage_stubs.js'
+              'src/scripts/lib/flatpage_stubs.js',
+              'src/scripts/lib/d3bb.js'
             ],
             dest: 'build/scripts/lib/'
           },
-          { expand: true, flatten: true, src: ['src/style/foundation.min.css'], dest: 'build/style/' },
+          { expand: true, flatten: true, src: ['bower/foundation/css/foundation.min.css'], dest: 'build/style/lib' },
+          { expand: true, flatten: true, src: ['bower/normalize-css/normalize.css'], dest: 'build/style/lib' },
           { expand: true, flatten: true, src: ['src/data/*'], dest: 'build/data/' },
           { expand: true, flatten: true, src: ['src/images/*'], dest: 'build/images/' },
           { expand: true, flatten: true, src: ['src/style/fonts/boomer/*'], dest: 'build/style/fonts/boomer/' },
@@ -74,7 +74,10 @@ module.exports = function(grunt) {
           { expand: true, flatten: true, src: ['src/style/fonts/boomerslab_cond*'], dest: 'build/style/fonts/boomerslab_cond' },
           { expand: true, flatten: true, src: ['src/style/fonts/boomerslab_extracond/*'], dest: 'build/style/fonts/boomerslab_extracond/' },
           { expand: true, flatten: true, src: ['src/style/fonts/publico/*'], dest: 'build/style/fonts/publico/' },
-          { expand: true, flatten: true, src: ['bower/modernizr/modernizr.js'], dest: 'build/scripts/lib/' },
+          { expand: true, flatten: true, src: ['src/style/fonts/Scout/*'], dest: 'build/style/fonts/Scout/' },
+          { expand: true, flatten: true, src: ['src/style/lib/fontawesome/css/*'], dest: 'build/style/lib/fontawesome/css' },
+          { expand: true, flatten: true, src: ['src/style/lib/fontawesome/fonts/*'], dest: 'build/style/lib/fontawesome/fonts' },
+          { expand: true, flatten: true, src: ['bower/foundation/js/modernizr.js'], dest: 'build/scripts/lib/' },
           { expand: true, flatten: true, src: ['src/scripts/lib/flatpage_stubs.js'], dest: 'build/scripts/lib/' },
           { expand: true, flatten: true, src: ['src/robots.txt'], dest: 'build/' }
         ]
@@ -111,15 +114,16 @@ module.exports = function(grunt) {
       },
       my_target: {
         files: {
-          'build/scripts/main.js'   : ['src/scripts/main.js']
+          'build/scripts/main.js'   : ['src/scripts/main.js'],
+          ///// add the rest of your scripts that go inside the build/scripts main.js comment in the html here
         }
       }
     },
 
     processhtml: {
       options: {
-        process: true,
-        strip: true
+        process: false,
+        strip: false
       },
       build: {
         files: {
@@ -131,12 +135,12 @@ module.exports = function(grunt) {
     htmlmin: {
       build: {
         options: {
-          removeComments: true,
+          removeComments: false,
           collapsWhitespace: true,
           useShortDoctype: true
         },
         files: {
-          'build/index.html'    : 'tmp/index.html'
+          'build/index.html'    : 'src/index.html'
         }
       }
     },
@@ -148,9 +152,7 @@ module.exports = function(grunt) {
         },
         files: {
           'build/style/app.css'       : ['src/style/app.css'],
-          'build/style/fonts.css'     : ['src/style/fonts.css'],
-          'build/style/normalize.css' : ['src/style/normalize.css'],
-          'build/style/foundation.css': ['src/style/foundation.min.css']
+          'build/style/fonts.css'     : ['src/style/fonts.css']
         }
       }
     },
@@ -196,7 +198,7 @@ module.exports = function(grunt) {
         }]
       }
     },
-
+    
     s3: {
       options: {
         accessKeyId: "<%= aws.key %>",
@@ -240,10 +242,11 @@ module.exports = function(grunt) {
           "jquery.js": "jquery/dist/jquery.js",
           "underscore.js": "underscore/underscore.js",
           "json2.js": "json2/json2.js",
-          "backbone.js": "backbone/backbone.js",
           "d3.js": "d3/d3.min.js",
           "d3bb.js": "d3bb/build/d3bb.js",
-          "modernizr.js": "modernizr/modernizr.js",
+          "backbone.js": "backbone/backbone.js",
+          "backbone.marionette.js": "marionette/lib/backbone.marionette.min.js",
+          "modernizr.js": "foundation/js/vendor/modernizr.js",
           "foundation.js": "foundation/js/foundation.min.js"
         }
       },
@@ -253,9 +256,19 @@ module.exports = function(grunt) {
         },
         files: {
           "normalize.css": "normalize-css/normalize.css",
-          "foundation.css": "foundation/css/foundation.min.css"
+          "foundation.css": "foundation/css/foundation.min.css",
+          "fontawesome": "fontawesome"
         }
       },
+      fonts: {
+        options: {
+          destPrefix: 'src/style'
+        },
+        files: {
+          "fonts.css": "ajc-design/build/style/fonts.css",
+          "fonts": "ajc-design/build/style/fonts"
+        }
+      }
 
     },
 
@@ -291,7 +304,7 @@ module.exports = function(grunt) {
 
     watch: {
       dev: {
-        files: ['src/index.html','src/scripts/*.js','src/style/**/*.css'],
+        files: ['src/index.html','src/scripts/*.js','src/scripts/*.js','src/style/**/*.css'],
         options: {
           livereload: true
         }
@@ -303,6 +316,7 @@ module.exports = function(grunt) {
         }
       }
     }
+
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -320,8 +334,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-express');
   grunt.loadNpmTasks('grunt-open');
 
-  grunt.registerTask('default', ['bowercopy','copy','uglify','cssmin','processhtml', 'htmlmin','s3']);
-  grunt.registerTask('build', ['bowercopy','copy','uglify','cssmin','processhtml', 'htmlmin']);
+  grunt.registerTask('default', ['bowercopy','copy','uglify','cssmin','processhtml','htmlmin','s3']);
+  grunt.registerTask('build', ['bowercopy','copy','uglify','cssmin','processhtml','htmlmin']);
   grunt.registerTask('deploy', ['s3']);
   grunt.registerTask('lint', ['jshint']);
   grunt.registerTask('server', ['express:dev','open:dev','watch:dev','express-keepalive']);
