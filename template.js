@@ -61,7 +61,7 @@ exports.template = function(grunt, init, done) {
 			    "grunt-contrib-concat": "~0.3.0",
 			    "grunt-contrib-rename": "~0.0.3",
 			    "grunt-contrib-watch": "~0.5.3",
-			    "grunt-contrib-imagemin": "~0.7.0",
+			    "grunt-contrib-imagemin": "~2.0.1",
 			    "grunt-processhtml": "~0.3.3",
 			    "grunt-bowercopy": "~1.0.0",
 			    "grunt-contrib-connect": "~0.7.1",
